@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class EarthquakeActivity extends AppCompatActivity
         "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
     private EarthquakeAdapter mAdapter;
     private static final int EARTHQUAKE_LOADER_ID = 1;
+    private TextView mEmptyStateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class EarthquakeActivity extends AppCompatActivity
                 startActivity(websiteIntent);
             }
         });
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        earthquakeListView.setEmptyView(mEmptyStateTextView);
 
         LoaderManager loaderManager = getLoaderManager();
         Log.e(LOG_TAG, "initLoader");
@@ -65,8 +69,9 @@ public class EarthquakeActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
-        mAdapter.clear();
         Log.e(LOG_TAG, "onLoadFinished");
+        mAdapter.clear();
+        mEmptyStateTextView.setText(R.string.no_earthquake);
         if (!earthquakes.isEmpty() && earthquakes != null){
             mAdapter.addAll(earthquakes);
         }
