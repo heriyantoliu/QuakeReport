@@ -1,8 +1,11 @@
 package com.example.android.quakereport;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -56,9 +59,19 @@ public class EarthquakeActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         earthquakeListView.setEmptyView(mEmptyStateTextView);
 
-        LoaderManager loaderManager = getLoaderManager();
-        Log.e(LOG_TAG, "initLoader");
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            LoaderManager loaderManager = getLoaderManager();
+            Log.e(LOG_TAG, "initLoader");
+            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        } else {
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+        }
+
     }
 
     @Override
