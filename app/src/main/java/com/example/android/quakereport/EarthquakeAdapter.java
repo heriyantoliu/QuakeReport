@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by heriyanto.liu on 10/25/2016.
@@ -24,7 +25,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     private static final String LOG_TAG = EarthquakeAdapter.class.getSimpleName();
     private static final String LOCATION_SEPARATOR = " of ";
 
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquake){
+    public EarthquakeAdapter(Activity context, List<Earthquake> earthquake){
         super(context, 0, earthquake);
     }
 
