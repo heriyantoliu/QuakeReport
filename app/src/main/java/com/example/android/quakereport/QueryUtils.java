@@ -62,11 +62,11 @@ public final class QueryUtils {
         // Create URL object
         Log.e(LOG_TAG, "fetchEarthquakeData");
 
-        try {
+        /*try {
             Thread.sleep(2000);
         } catch (InterruptedException e){
             e.printStackTrace();
-        }
+        }*/
 
         URL url = createUrl(requestUrl);
 
